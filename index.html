@@ -1,0 +1,647 @@
+<title>ห้องเรียนคอมพิวเตอร์</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;700&display=swap">
+<style>
+/* Layout: sticker-book classroom. Playful hero cluster, vertical timeline, flow cards, binary toy, sticker album + board. */
+:root {
+  --bg: #EEF1FF;
+  --surface: #FFFFFF;
+  --ink: #23205A;
+  --muted: #55538A;
+  --line: #D3D8F5;
+  --pink: #FF7AA8;
+  --yellow: #FFD23F;
+  --mint: #5EE3B0;
+  --sky: #5BB8FF;
+  --violet: #A296FF;
+  --on-accent: #23205A;
+  --focus: #5B4BFF;
+  --font-display: "Mali", "Sarabun", "Noto Sans Thai", system-ui, sans-serif;
+  --font-body: "Sarabun", "Noto Sans Thai", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14122E; --surface: #1F1C47; --ink: #F1F0FF; --muted: #B0AEDD; --line: #38337A; --focus: #B9B1FF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14122E; --surface: #1F1C47; --ink: #F1F0FF; --muted: #B0AEDD; --line: #38337A; --focus: #B9B1FF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  background-image: radial-gradient(var(--line) 1.4px, transparent 1.6px);
+  background-size: 26px 26px;
+  padding-block: 0 40px;
+}
+.wrap {
+  max-width: 1040px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.3; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 8px; }
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* sticker look */
+.stk {
+  display: block;
+  filter: drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff) drop-shadow(0 -2.5px 0 #fff) drop-shadow(0 4px 5px rgba(20, 18, 60, .28));
+  overflow: visible;
+}
+
+/* top nav */
+.nav { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 18px 6px; align-items: center; }
+.brand { font-family: var(--font-display); font-weight: 700; margin-right: auto; display: flex; align-items: center; gap: 8px; }
+.nav a.pill {
+  text-decoration: none; font-weight: 700; font-size: .95rem;
+  padding: 6px 14px; border-radius: 999px; background: var(--surface); border: 2px solid var(--line);
+}
+.nav a.pill:hover { border-color: var(--ink); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 24px; align-items: center; padding-block: 28px 40px; }
+.eyebrow {
+  display: inline-block; background: var(--yellow); color: var(--on-accent);
+  font-weight: 700; font-size: .9rem; padding: 4px 14px; border-radius: 999px; transform: rotate(-2deg);
+}
+.hero h1 { font-size: clamp(2.5rem, 9vw, 4.8rem); font-weight: 700; margin-block: 16px 14px; letter-spacing: -.01em; }
+.hero h1 span { background: linear-gradient(transparent 62%, var(--pink) 62%, var(--pink) 92%, transparent 92%); padding-inline: 4px; }
+.hero p.lead { max-width: 34em; color: var(--muted); font-size: 1.1rem; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.btn {
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer;
+  border: 2.5px solid var(--ink); border-radius: 14px; padding: 10px 20px; min-height: 46px;
+  background: var(--mint); color: var(--on-accent); box-shadow: 0 4px 0 var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: transform .12s, box-shadow .12s;
+}
+.btn.alt { background: var(--surface); color: var(--ink); }
+.btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
+.btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--ink); }
+
+.cluster { position: relative; width: 100%; max-width: 380px; aspect-ratio: 1 / 1; margin-inline: auto; }
+.cluster .stk { position: absolute; }
+.cluster .a { width: 52%; left: 24%; top: 26%; transform: rotate(-4deg); }
+.cluster .b { width: 28%; right: 2%; top: 2%; transform: rotate(10deg); }
+.cluster .c { width: 22%; left: 4%; top: 6%; transform: rotate(-14deg); }
+.cluster .d { width: 26%; left: 2%; bottom: 6%; transform: rotate(8deg); }
+.cluster .e { width: 24%; right: 6%; bottom: 8%; transform: rotate(-8deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .cluster .stk { animation: bob 4.6s ease-in-out infinite; }
+  .cluster .b { animation-delay: -1s; } .cluster .c { animation-delay: -2s; }
+  .cluster .d { animation-delay: -3s; } .cluster .e { animation-delay: -.5s; }
+  @keyframes bob { 50% { translate: 0 -8px; } }
+}
+
+/* sections */
+section { padding-block: 44px 8px; scroll-margin-top: 12px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.sec-head h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); font-weight: 700; }
+.sec-lead { color: var(--muted); max-width: 40em; margin-bottom: 24px; }
+.card {
+  background: var(--surface); border: 2.5px solid var(--line); border-radius: 20px; padding: 18px 20px;
+  box-shadow: 0 4px 0 var(--line);
+}
+.c1 { --c: var(--sky); } .c2 { --c: var(--pink); } .c3 { --c: var(--yellow); }
+.c4 { --c: var(--mint); } .c5 { --c: var(--violet); }
+
+/* timeline */
+.tl { display: grid; gap: 18px; position: relative; }
+.tl-item { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; align-items: start; }
+.year {
+  background: var(--c); color: var(--on-accent); border: 2.5px solid var(--ink); border-radius: 16px;
+  padding: 8px 10px; text-align: center; font-family: var(--font-display); font-weight: 700; line-height: 1.3;
+  transform: rotate(-1.5deg);
+}
+.tl-item:nth-child(even) .year { transform: rotate(1.5deg); }
+.year b { display: block; font-size: 1.15rem; }
+.year small { font-family: var(--font-body); font-weight: 500; font-size: .8rem; }
+.tl-card { display: grid; grid-template-columns: minmax(0, 1fr) 64px; gap: 14px; align-items: center; }
+.tl-card h3 { font-size: 1.2rem; margin-bottom: 2px; }
+.tl-card p { color: var(--muted); font-size: .98rem; }
+@media (max-width: 600px) {
+  .tl-item { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .year { justify-self: start; display: flex; gap: 8px; align-items: baseline; padding: 4px 14px; }
+  .year b { display: inline; }
+  .tl-card { grid-template-columns: minmax(0, 1fr) 52px; }
+}
+
+.fact { margin-top: 26px; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 16px; align-items: center; background: var(--yellow); color: var(--on-accent); border-color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.fact h3 { font-size: 1.15rem; }
+.fact p { font-size: .98rem; }
+
+/* generations */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tab {
+  font-family: var(--font-display); font-weight: 700; font-size: .95rem; cursor: pointer; min-height: 44px;
+  background: var(--surface); color: var(--ink); border: 2.5px solid var(--line); border-radius: 999px; padding: 6px 16px;
+}
+.tab[aria-selected="true"] { background: var(--c); color: var(--on-accent); border-color: var(--ink); }
+.gen { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 18px; align-items: center; }
+.gen h3 { font-size: 1.4rem; }
+.gen .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 8px; }
+.tag { background: var(--c); color: var(--on-accent); font-weight: 700; font-size: .85rem; padding: 2px 12px; border-radius: 999px; border: 2px solid var(--ink); }
+.gen p { color: var(--muted); }
+@media (max-width: 520px) { .gen { grid-template-columns: minmax(0, 1fr); } .gen .stk { width: 80px; } }
+
+/* parts */
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+.part { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
+.part .stk { width: 78px; }
+.part h3 { font-size: 1.1rem; }
+.part .en { font-size: .8rem; font-weight: 700; letter-spacing: .06em; background: var(--c); color: var(--on-accent); padding: 0 10px; border-radius: 999px; border: 2px solid var(--ink); }
+.part p { color: var(--muted); font-size: .94rem; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 18px; }
+.two h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.two p { color: var(--muted); font-size: .98rem; }
+
+/* binary */
+.bin { display: grid; gap: 18px; }
+.bits { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+.bit { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+.bit span { font-size: .8rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bit button {
+  width: 100%; max-width: 64px; aspect-ratio: 3 / 4; cursor: pointer; border-radius: 14px; border: 2.5px solid var(--ink);
+  font-family: var(--font-display); font-weight: 700; font-size: 1.6rem;
+  background: var(--surface); color: var(--ink); box-shadow: 0 4px 0 var(--ink); transition: transform .1s, box-shadow .1s;
+}
+.bit button[aria-pressed="true"] { background: var(--yellow); color: var(--on-accent); transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+.readout { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.readout .box { flex: 1 1 140px; border-radius: 16px; padding: 10px 16px; border: 2.5px solid var(--ink); background: var(--c); color: var(--on-accent); min-width: 0; }
+.readout .box small { display: block; font-weight: 700; font-size: .85rem; }
+.readout .box output { font-family: var(--font-display); font-weight: 700; font-size: 2rem; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.presets .btn { min-height: 40px; padding: 4px 16px; box-shadow: 0 3px 0 var(--ink); background: var(--surface); color: var(--ink); }
+
+/* quiz */
+.q-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-weight: 700; font-size: .95rem; margin-bottom: 8px; }
+.q h3 { font-size: 1.3rem; margin-bottom: 14px; }
+.opts { display: grid; gap: 10px; }
+.opt {
+  text-align: left; cursor: pointer; font-family: var(--font-body); font-size: 1.05rem; font-weight: 500; min-height: 48px;
+  background: var(--surface); color: var(--ink); border: 2.5px solid var(--line); border-radius: 14px; padding: 8px 16px;
+}
+.opt:hover:not(:disabled) { border-color: var(--ink); }
+.opt.ok { background: var(--mint); color: var(--on-accent); border-color: var(--ink); }
+.opt.no { background: var(--pink); color: var(--on-accent); border-color: var(--ink); }
+.opt:disabled { cursor: default; }
+.explain { margin-top: 14px; color: var(--muted); }
+.q-actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+.result { text-align: center; display: grid; gap: 10px; justify-items: center; }
+.result .stk { width: 110px; }
+.result h3 { font-size: 1.6rem; }
+
+/* stickers */
+.album { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 12px; }
+.pick {
+  cursor: pointer; background: var(--surface); border: 2.5px solid var(--line); border-radius: 18px; padding: 12px 6px 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px; font-family: var(--font-body); font-weight: 700; font-size: .88rem; color: var(--ink); min-width: 0;
+}
+.pick .stk { width: 68px; transition: transform .15s; }
+.pick:hover .stk { transform: rotate(-6deg) scale(1.08); }
+.pick[aria-pressed="true"] { border-color: var(--ink); background: var(--yellow); color: var(--on-accent); box-shadow: 0 4px 0 var(--ink); }
+.board-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-block: 22px 10px; }
+.board-bar p { color: var(--muted); flex: 1 1 220px; font-weight: 500; }
+.board-bar .btn { min-height: 42px; padding: 4px 16px; box-shadow: 0 3px 0 var(--ink); background: var(--surface); color: var(--ink); }
+.board {
+  position: relative; height: 340px; border-radius: 22px; border: 3px dashed var(--ink); background: var(--surface);
+  background-image: radial-gradient(var(--line) 1.6px, transparent 1.8px); background-size: 22px 22px;
+  cursor: copy; overflow: hidden; touch-action: manipulation;
+}
+.board .hint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--muted); font-family: var(--font-display); font-weight: 600; padding: 16px; pointer-events: none; }
+.placed { position: absolute; width: 72px; pointer-events: none; }
+.placed .stk { width: 100%; }
+
+footer { padding-block: 40px 8px; text-align: center; color: var(--muted); font-size: .92rem; display: grid; gap: 10px; justify-items: center; }
+footer .row { display: flex; gap: 10px; }
+footer .stk { width: 40px; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .cluster { max-width: 300px; }
+  .fact { grid-template-columns: 64px minmax(0, 1fr); }
+  .fact .stk { width: 64px; }
+}
+</style>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="s-laptop" viewBox="0 0 100 100">
+      <rect x="16" y="16" width="68" height="46" rx="8" fill="#5BB8FF" stroke="#23205A" stroke-width="3"/>
+      <rect x="22" y="22" width="56" height="34" rx="5" fill="#E6F6FF"/>
+      <circle cx="40" cy="37" r="3.2" fill="#23205A"/><circle cx="60" cy="37" r="3.2" fill="#23205A"/>
+      <path d="M44 44 Q50 50 56 44" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="33" cy="45" r="4" fill="#FF9FBF"/><circle cx="67" cy="45" r="4" fill="#FF9FBF"/>
+      <path d="M8 70 H92 L86 80 Q85 82 82 82 H18 Q15 82 14 80 Z" fill="#FFD23F" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="42" y="72.5" width="16" height="4" rx="2" fill="#23205A" opacity=".35"/>
+    </symbol>
+    <symbol id="s-mouse" viewBox="0 0 100 100">
+      <path d="M50 84 Q50 95 66 93" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <rect x="30" y="12" width="40" height="72" rx="20" fill="#FF7AA8" stroke="#23205A" stroke-width="3"/>
+      <path d="M30 42 H70 M50 12 V42" stroke="#23205A" stroke-width="3" fill="none"/>
+      <rect x="45.500" y="20" width="9" height="13" rx="4.500" fill="#fff" stroke="#23205A" stroke-width="2"/>
+      <circle cx="42" cy="58" r="3" fill="#23205A"/><circle cx="58" cy="58" r="3" fill="#23205A"/>
+      <path d="M45 66 Q50 71 55 66" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="37" cy="66" r="3.500" fill="#FFC2D6"/><circle cx="63" cy="66" r="3.500" fill="#FFC2D6"/>
+    </symbol>
+    <symbol id="s-cpu" viewBox="0 0 100 100">
+      <path d="M34 8V24 M50 8V24 M66 8V24 M34 76V92 M50 76V92 M66 76V92 M8 34H24 M8 50H24 M8 66H24 M76 34H92 M76 50H92 M76 66H92" stroke="#23205A" stroke-width="4.500" stroke-linecap="round" fill="none"/>
+      <rect x="22" y="22" width="56" height="56" rx="10" fill="#5EE3B0" stroke="#23205A" stroke-width="3"/>
+      <rect x="30" y="30" width="40" height="40" rx="6" fill="#B8F5DD"/>
+      <circle cx="42" cy="47" r="3.200" fill="#23205A"/><circle cx="58" cy="47" r="3.200" fill="#23205A"/>
+      <path d="M44 55 Q50 61 56 55" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="35" cy="56" r="3.500" fill="#FF9FBF"/><circle cx="65" cy="56" r="3.500" fill="#FF9FBF"/>
+    </symbol>
+    <symbol id="s-floppy" viewBox="0 0 100 100">
+      <path d="M16 20 Q16 14 22 14 H72 L86 28 V80 Q86 86 80 86 H22 Q16 86 16 80 Z" fill="#A296FF" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="34" y="14" width="30" height="20" rx="2" fill="#DDE0F5" stroke="#23205A" stroke-width="3"/>
+      <rect x="54" y="18" width="6" height="12" rx="1.500" fill="#23205A"/>
+      <rect x="26" y="50" width="48" height="36" rx="3" fill="#fff" stroke="#23205A" stroke-width="3"/>
+      <circle cx="42" cy="64" r="3" fill="#23205A"/><circle cx="58" cy="64" r="3" fill="#23205A"/>
+      <path d="M45 71 Q50 76 55 71" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="s-robot" viewBox="0 0 100 100">
+      <path d="M50 12 V28" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="50" cy="11" r="5.500" fill="#FF7AA8" stroke="#23205A" stroke-width="3"/>
+      <rect x="32" y="74" width="36" height="14" rx="6" fill="#5BB8FF" stroke="#23205A" stroke-width="3"/>
+      <rect x="12" y="44" width="10" height="16" rx="4" fill="#FF9A3C" stroke="#23205A" stroke-width="3"/>
+      <rect x="78" y="44" width="10" height="16" rx="4" fill="#FF9A3C" stroke="#23205A" stroke-width="3"/>
+      <rect x="20" y="28" width="60" height="48" rx="14" fill="#FFD23F" stroke="#23205A" stroke-width="3"/>
+      <circle cx="38" cy="48" r="8" fill="#fff" stroke="#23205A" stroke-width="3"/><circle cx="62" cy="48" r="8" fill="#fff" stroke="#23205A" stroke-width="3"/>
+      <circle cx="39" cy="49" r="3.500" fill="#23205A"/><circle cx="63" cy="49" r="3.500" fill="#23205A"/>
+      <path d="M41 62 Q50 70 59 62" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="s-binary" viewBox="0 0 100 100">
+      <path d="M12 24 Q12 12 24 12 H76 Q88 12 88 24 V56 Q88 68 76 68 H50 L30 88 L32 68 H24 Q12 68 12 56 Z" fill="#A296FF" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <text x="50" y="49" text-anchor="middle" font-family="Mali, sans-serif" font-weight="700" font-size="25" fill="#fff" stroke="#23205A" stroke-width="1" paint-order="stroke">0101</text>
+    </symbol>
+    <symbol id="s-wifi" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="42" fill="#FFE9F1" stroke="#23205A" stroke-width="3"/>
+      <path d="M22 44 Q50 20 78 44 M33 57 Q50 42 67 57" fill="none" stroke="#23205A" stroke-width="12" stroke-linecap="round"/>
+      <path d="M22 44 Q50 20 78 44 M33 57 Q50 42 67 57" fill="none" stroke="#5BB8FF" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="50" cy="71" r="7.500" fill="#FF7AA8" stroke="#23205A" stroke-width="3"/>
+    </symbol>
+    <symbol id="s-heart" viewBox="0 0 100 100">
+      <path d="M50 88 C12 63 10 32 29 24 C40 20 48 26 50 33 C52 26 60 20 71 24 C90 32 88 63 50 88 Z" fill="#FF7AA8" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <text x="50" y="58" text-anchor="middle" font-family="Mali, sans-serif" font-weight="700" font-size="24" fill="#fff" stroke="#23205A" stroke-width="1" paint-order="stroke">&lt;/&gt;</text>
+    </symbol>
+    <symbol id="s-bug" viewBox="0 0 100 100">
+      <path d="M28 48 L12 42 M28 60 L10 62 M30 72 L16 84 M72 48 L88 42 M72 60 L90 62 M70 72 L84 84 M42 18 L36 8 M58 18 L64 8" stroke="#23205A" stroke-width="3.500" stroke-linecap="round" fill="none"/>
+      <ellipse cx="50" cy="60" rx="22" ry="26" fill="#5EE3B0" stroke="#23205A" stroke-width="3"/>
+      <path d="M50 42 V86" stroke="#23205A" stroke-width="2.500" opacity=".35"/>
+      <circle cx="38" cy="64" r="4.500" fill="#FF7AA8"/><circle cx="62" cy="64" r="4.500" fill="#FF7AA8"/><circle cx="41" cy="78" r="3.500" fill="#FF7AA8"/><circle cx="59" cy="78" r="3.500" fill="#FF7AA8"/>
+      <circle cx="50" cy="30" r="15" fill="#5EE3B0" stroke="#23205A" stroke-width="3"/>
+      <circle cx="44" cy="29" r="2.800" fill="#23205A"/><circle cx="56" cy="29" r="2.800" fill="#23205A"/>
+      <path d="M45 36 Q50 41 55 36" fill="none" stroke="#23205A" stroke-width="2.500" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="s-battery" viewBox="0 0 100 100">
+      <rect x="78" y="40" width="9" height="20" rx="3" fill="#DDE0F5" stroke="#23205A" stroke-width="3"/>
+      <rect x="12" y="26" width="68" height="48" rx="12" fill="#5EE3B0" stroke="#23205A" stroke-width="3"/>
+      <circle cx="38" cy="48" r="3.200" fill="#23205A"/><circle cx="58" cy="48" r="3.200" fill="#23205A"/>
+      <path d="M42 57 Q48 63 54 57" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="29" cy="56" r="4" fill="#FF9FBF"/><circle cx="67" cy="56" r="4" fill="#FF9FBF"/>
+      <path d="M50 30 L44 41 H50 L46 50" fill="none" stroke="#FFD23F" stroke-width="0"/>
+    </symbol>
+    <symbol id="s-gamepad" viewBox="0 0 100 100">
+      <path d="M26 30 H74 Q92 30 92 54 Q92 76 82 76 Q74 76 70 68 L66 62 H34 L30 68 Q26 76 18 76 Q8 76 8 54 Q8 30 26 30 Z" fill="#FF9A3C" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M26 42 V58 M18 50 H34" stroke="#23205A" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="73" cy="44" r="5" fill="#FF7AA8" stroke="#23205A" stroke-width="2.500"/><circle cx="82" cy="53" r="5" fill="#FFD23F" stroke="#23205A" stroke-width="2.500"/>
+      <circle cx="45" cy="46" r="2.800" fill="#23205A"/><circle cx="57" cy="46" r="2.800" fill="#23205A"/>
+      <path d="M46 53 Q51 58 56 53" fill="none" stroke="#23205A" stroke-width="2.500" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="s-star" viewBox="0 0 100 100">
+      <polygon points="50,8 61,36 92,38 68,57 77,88 50,70 23,88 32,57 8,38 39,36" fill="#FFD23F" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="42" cy="50" r="3" fill="#23205A"/><circle cx="58" cy="50" r="3" fill="#23205A"/>
+      <path d="M44 58 Q50 64 56 58" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="35" cy="58" r="3.500" fill="#FF9FBF"/><circle cx="65" cy="58" r="3.500" fill="#FF9FBF"/>
+    </symbol>
+    <symbol id="s-cloud" viewBox="0 0 100 100">
+      <path d="M28 76 Q8 76 8 58 Q8 43 25 41 Q28 22 49 22 Q68 22 72 40 Q92 41 92 58 Q92 76 74 76 Z" fill="#BFE6FF" stroke="#23205A" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="40" cy="52" r="3.200" fill="#23205A"/><circle cx="60" cy="52" r="3.200" fill="#23205A"/>
+      <path d="M44 60 Q50 66 56 60" fill="none" stroke="#23205A" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="31" cy="60" r="4" fill="#FF9FBF"/><circle cx="69" cy="60" r="4" fill="#FF9FBF"/>
+    </symbol>
+    <symbol id="s-keyboard" viewBox="0 0 100 100">
+      <rect x="8" y="26" width="84" height="50" rx="10" fill="#A296FF" stroke="#23205A" stroke-width="3"/>
+      <g fill="#fff" stroke="#23205A" stroke-width="1.800">
+        <rect x="16" y="34" width="9" height="9" rx="2.500"/><rect x="29" y="34" width="9" height="9" rx="2.500"/><rect x="42" y="34" width="9" height="9" rx="2.500"/><rect x="55" y="34" width="9" height="9" rx="2.500"/><rect x="68" y="34" width="9" height="9" rx="2.500"/>
+        <rect x="22" y="47" width="9" height="9" rx="2.500"/><rect x="35" y="47" width="9" height="9" rx="2.500"/><rect x="48" y="47" width="9" height="9" rx="2.500"/><rect x="61" y="47" width="9" height="9" rx="2.500"/><rect x="74" y="47" width="9" height="9" rx="2.500"/>
+        <rect x="28" y="60" width="44" height="9" rx="2.500" fill="#FFD23F"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="nav">
+    <div class="brand"><svg class="stk" width="34" height="34" viewBox="0 0 100 100"><use href="#s-laptop"/></svg> ห้องเรียนคอมพิวเตอร์</div>
+    <a class="pill" href="#history">ประวัติ</a>
+    <a class="pill" href="#parts">ส่วนประกอบ</a>
+    <a class="pill" href="#binary">เลขฐานสอง</a>
+    <a class="pill" href="#quiz">ควิซ</a>
+    <a class="pill" href="#stickers">สติกเกอร์</a>
+  </header>
+
+  <div class="hero">
+    <div>
+      <span class="eyebrow">สำหรับนักเรียนช่างสงสัย</span>
+      <h1>ห้องเรียน<span>คอมพิวเตอร์</span></h1>
+      <p class="lead">เดินทางย้อนเวลาตั้งแต่ลูกคิดถึงยุค AI รู้จักส่วนประกอบของเครื่อง ลองเล่นเลขฐานสอง ทำควิซสั้นๆ แล้วเลือกสติกเกอร์น่ารักไปแปะบนกระดานของตัวเอง</p>
+      <div class="cta">
+        <a class="btn" href="#history">เริ่มเรียนเลย</a>
+        <a class="btn alt" href="#stickers">ไปติดสติกเกอร์</a>
+      </div>
+    </div>
+    <div class="cluster" aria-hidden="true">
+      <svg class="stk a" viewBox="0 0 100 100"><use href="#s-laptop"/></svg>
+      <svg class="stk b" viewBox="0 0 100 100"><use href="#s-robot"/></svg>
+      <svg class="stk c" viewBox="0 0 100 100"><use href="#s-star"/></svg>
+      <svg class="stk d" viewBox="0 0 100 100"><use href="#s-cpu"/></svg>
+      <svg class="stk e" viewBox="0 0 100 100"><use href="#s-heart"/></svg>
+    </div>
+  </div>
+
+  <section id="history">
+    <div class="sec-head">
+      <svg class="stk" width="52" height="52" viewBox="0 0 100 100"><use href="#s-floppy"/></svg>
+      <h2>ความเป็นมาของคอมพิวเตอร์</h2>
+    </div>
+    <p class="sec-lead">คอมพิวเตอร์ไม่ได้เกิดขึ้นในวันเดียว แต่ค่อยๆ พัฒนามาจากเครื่องช่วยคิดเลขของคนโบราณ จนกลายเป็นเครื่องที่อยู่ในกระเป๋าของเรา</p>
+    <div class="tl" id="timeline"></div>
+
+    <div class="card fact">
+      <svg class="stk" width="84" height="84" viewBox="0 0 100 100"><use href="#s-bug"/></svg>
+      <div>
+        <h3>ทำไมความผิดพลาดของโปรแกรมถึงเรียกว่า "บั๊ก"</h3>
+        <p>ปี 1947 ทีมวิศวกรที่ฮาร์วาร์ดพบแมลงเม่าติดอยู่ในเครื่อง Mark II แล้วแปะลงสมุดบันทึกว่าเป็นบั๊กตัวจริง คำนี้ใช้เรียกปัญหาของเครื่องจักรมาก่อนแล้ว แต่เรื่องนี้ทำให้คนจำได้ขึ้นใจ</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.5rem; margin-block: 36px 12px;">คอมพิวเตอร์ 5 รุ่น</h3>
+    <div class="tabs" role="tablist" aria-label="รุ่นของคอมพิวเตอร์" id="gen-tabs"></div>
+    <div class="card gen" id="gen-panel" role="tabpanel"></div>
+  </section>
+
+  <section id="parts">
+    <div class="sec-head">
+      <svg class="stk" width="52" height="52" viewBox="0 0 100 100"><use href="#s-cpu"/></svg>
+      <h2>คอมพิวเตอร์ทำงานอย่างไร</h2>
+    </div>
+    <p class="sec-lead">ทุกเครื่องทำงานเป็นวงจรเดียวกัน รับข้อมูลเข้ามา ประมวลผล เก็บไว้ แล้วแสดงผลออกมา</p>
+    <div class="flow" id="flow"></div>
+    <div class="two">
+      <div class="card c1">
+        <h3>ฮาร์ดแวร์ (Hardware)</h3>
+        <p>ส่วนที่จับต้องได้ เช่น จอภาพ เมาส์ คีย์บอร์ด และแผงวงจรข้างใน</p>
+      </div>
+      <div class="card c2">
+        <h3>ซอฟต์แวร์ (Software)</h3>
+        <p>ชุดคำสั่งที่บอกให้ฮาร์ดแวร์ทำงาน เช่น ระบบปฏิบัติการ เกม และโปรแกรมพิมพ์งาน จับต้องไม่ได้ แต่ขาดไม่ได้</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="binary">
+    <div class="sec-head">
+      <svg class="stk" width="52" height="52" viewBox="0 0 100 100"><use href="#s-binary"/></svg>
+      <h2>ลองเล่นเลขฐานสอง</h2>
+    </div>
+    <p class="sec-lead">ข้างในเครื่อง ทุกอย่างคือสวิตช์ปิดเปิด ปิดเป็น 0 เปิดเป็น 1 กดสวิตช์ด้านล่างเพื่อดูว่าเลขและตัวอักษรเปลี่ยนไปอย่างไร</p>
+    <div class="card bin">
+      <div class="bits" id="bits"></div>
+      <div class="readout">
+        <div class="box c3"><small>เลขฐานสิบ</small><output id="dec" aria-live="polite">0</output></div>
+        <div class="box c4"><small>ตัวอักษร (รหัส ASCII)</small><output id="chr" aria-live="polite">-</output></div>
+      </div>
+      <div class="presets">
+        <strong>ลองดู:</strong>
+        <button class="btn" type="button" data-v="65">A</button>
+        <button class="btn" type="button" data-v="97">a</button>
+        <button class="btn" type="button" data-v="33">!</button>
+        <button class="btn" type="button" data-v="0">ล้างทั้งหมด</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="sec-head">
+      <svg class="stk" width="52" height="52" viewBox="0 0 100 100"><use href="#s-star"/></svg>
+      <h2>ควิซ 5 ข้อ</h2>
+    </div>
+    <p class="sec-lead">ทดสอบความรู้จากที่เพิ่งอ่านไป ตอบผิดไม่เป็นไร มีคำอธิบายทุกข้อ</p>
+    <div class="card q" id="quiz-box"></div>
+  </section>
+
+  <section id="stickers">
+    <div class="sec-head">
+      <svg class="stk" width="52" height="52" viewBox="0 0 100 100"><use href="#s-heart"/></svg>
+      <h2>สมุดสติกเกอร์</h2>
+    </div>
+    <p class="sec-lead">เลือกสติกเกอร์ที่ชอบ แล้วแตะบนกระดานด้านล่างเพื่อติด ติดได้กี่แผ่นก็ได้</p>
+    <div class="album" id="album"></div>
+    <div class="board-bar">
+      <p id="board-msg">เลือกแล้ว: โน้ตบุ๊ก</p>
+      <button class="btn" type="button" id="undo">ย้อนกลับ</button>
+      <button class="btn" type="button" id="clear">ล้างกระดาน</button>
+    </div>
+    <div class="board" id="board" tabindex="0" role="button" aria-label="กระดานติดสติกเกอร์ แตะเพื่อติดสติกเกอร์ที่เลือก">
+      <div class="hint" id="hint">แตะตรงไหนก็ได้เพื่อติดสติกเกอร์</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row" aria-hidden="true">
+      <svg class="stk" viewBox="0 0 100 100"><use href="#s-mouse"/></svg>
+      <svg class="stk" viewBox="0 0 100 100"><use href="#s-cloud"/></svg>
+      <svg class="stk" viewBox="0 0 100 100"><use href="#s-gamepad"/></svg>
+    </div>
+    <p>เนื้อหาสรุปโดยย่อเพื่อการเรียนรู้ ปีที่ระบุเป็นปีโดยประมาณของเหตุการณ์สำคัญ</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var NAMES = {
+    's-laptop': 'โน้ตบุ๊ก', 's-mouse': 'เมาส์', 's-cpu': 'ซีพียู', 's-floppy': 'แผ่นดิสก์',
+    's-robot': 'หุ่นยนต์', 's-binary': 'เลขฐานสอง', 's-wifi': 'ไวไฟ', 's-heart': 'หัวใจโค้ด',
+    's-bug': 'บั๊ก', 's-battery': 'แบตเตอรี่', 's-gamepad': 'จอยเกม', 's-star': 'ดาวน้อย',
+    's-cloud': 'คลาวด์', 's-keyboard': 'คีย์บอร์ด'
+  };
+  function stk(id, extra) {
+    return '<svg class="stk" ' + (extra || '') + ' viewBox="0 0 100 100" aria-hidden="true"><use href="#' + id + '"/></svg>';
+  }
+
+  /* ---------- timeline ---------- */
+  var TL = [
+    ['กว่า 2,000 ปีก่อน', '', 'ลูกคิด', 'คนโบราณเลื่อนลูกปัดบนแกนเพื่อบวก ลบ คูณ หาร ลูกคิดยังใช้ฝึกคิดเลขในหลายประเทศจนถึงทุกวันนี้', 's-star'],
+    ['1642', 'พ.ศ. 2185', 'เครื่องคิดเลขของปาสกาล', 'เบลส ปาสกาล นักคณิตศาสตร์ชาวฝรั่งเศส สร้างเครื่องคิดเลขแบบเฟืองเพื่อช่วยงานคำนวณของคุณพ่อ', 's-keyboard'],
+    ['1837', 'พ.ศ. 2380', 'เครื่องวิเคราะห์ของแบบเบจ', 'ชาร์ลส์ แบบเบจ ออกแบบเครื่องที่มีส่วนคำนวณและส่วนเก็บตัวเลข คล้ายแนวคิดของคอมพิวเตอร์ปัจจุบัน แต่สมัยนั้นสร้างไม่สำเร็จ', 's-floppy'],
+    ['1843', 'พ.ศ. 2386', 'เอดา เลิฟเลซ', 'เอดาเขียนบันทึกอธิบายเครื่องของแบบเบจ พร้อมขั้นตอนคำนวณที่หลายคนถือว่าเป็นโปรแกรมแรกของโลก', 's-heart'],
+    ['1945', 'พ.ศ. 2488', 'ENIAC', 'คอมพิวเตอร์อิเล็กทรอนิกส์เครื่องยักษ์ ใช้หลอดสุญญากาศเกือบ 18,000 หลอด หนักราว 27 ตัน และใหญ่เท่าห้องทั้งห้อง', 's-battery'],
+    ['1947', 'พ.ศ. 2490', 'ทรานซิสเตอร์', 'ทรานซิสเตอร์ถูกคิดค้นที่ห้องแล็บเบลล์ เล็กกว่า ประหยัดไฟกว่า และทนกว่าหลอดสุญญากาศ ทำให้เครื่องเล็กลงมาก', 's-cpu'],
+    ['1981', 'พ.ศ. 2524', 'IBM PC', 'IBM ออกคอมพิวเตอร์ส่วนบุคคล ทำให้คอมพิวเตอร์เข้าไปอยู่ในออฟฟิศและบ้านมากขึ้น', 's-laptop'],
+    ['1989', 'พ.ศ. 2532', 'เวิลด์ไวด์เว็บ', 'ทิม เบอร์เนอร์ส-ลี เสนอแนวคิดเว็บ ทำให้คนเปิดหน้าเว็บและกดลิงก์ไปหากันได้ง่าย อินเทอร์เน็ตมีมาก่อนหน้านั้น แต่เว็บทำให้ใช้ง่ายขึ้นมาก', 's-wifi'],
+    ['2007', 'พ.ศ. 2550', 'สมาร์ตโฟนจอสัมผัส', 'iPhone เปิดตัวและทำให้สมาร์ตโฟนจอสัมผัสแพร่หลาย คอมพิวเตอร์เล็กพอที่จะอยู่ในกระเป๋านักเรียน', 's-cloud'],
+    ['2020 เป็นต้นมา', 'พ.ศ. 2563+', 'ยุคปัญญาประดิษฐ์ (AI)', 'AI ช่วยแปลภาษา ตอบคำถาม และสร้างภาพได้ แต่ยังต้องมีคนตรวจสอบคำตอบและใช้อย่างรับผิดชอบ', 's-robot']
+  ];
+  var tl = document.getElementById('timeline'), cs = ['c1', 'c2', 'c3', 'c4', 'c5'], h = '';
+  TL.forEach(function (t, i) {
+    h += '<div class="tl-item ' + cs[i % 5] + '"><div class="year"><b>' + t[0] + '</b>' + (t[1] ? '<small>' + t[1] + '</small>' : '') + '</div>' +
+      '<div class="card tl-card"><div><h3>' + t[2] + '</h3><p>' + t[3] + '</p></div>' + stk(t[4], 'width="64"') + '</div></div>';
+  });
+  tl.innerHTML = h;
+
+  /* ---------- generations ---------- */
+  var GEN = [
+    ['รุ่นที่ 1', '1940s-1950s', 'หลอดสุญญากาศ', 'ใหญ่มาก ร้อน กินไฟ และเสียบ่อย ใช้งานในห้องวิจัยหรือหน่วยงานใหญ่', 'ตัวอย่าง: ENIAC', 's-battery'],
+    ['รุ่นที่ 2', '1950s-1960s', 'ทรานซิสเตอร์', 'เล็กลง เร็วขึ้น ประหยัดไฟขึ้น เริ่มมีภาษาโปรแกรมที่คนอ่านเข้าใจง่ายขึ้น', 'ตัวอย่าง: เมนเฟรมรุ่นแรกๆ ของ IBM', 's-cpu'],
+    ['รุ่นที่ 3', '1960s-1970s', 'วงจรรวม (IC)', 'รวมทรานซิสเตอร์จำนวนมากไว้ในชิปเล็กๆ ชิ้นเดียว ราคาถูกลงและเชื่อถือได้มากขึ้น', 'ตัวอย่าง: คอมพิวเตอร์ขนาดกลางในมหาวิทยาลัย', 's-floppy'],
+    ['รุ่นที่ 4', '1970s-ปัจจุบัน', 'ไมโครโปรเซสเซอร์', 'ใส่ทั้งสมองของเครื่องไว้ในชิปเดียว (Intel 4004 ปี 1971) เกิดคอมพิวเตอร์ส่วนบุคคลและโน้ตบุ๊ก', 'ตัวอย่าง: พีซี โน้ตบุ๊ก สมาร์ตโฟน', 's-laptop'],
+    ['รุ่นที่ 5', 'ปัจจุบัน-อนาคต', 'ปัญญาประดิษฐ์', 'เครื่องเรียนรู้จากข้อมูลและโต้ตอบกับคนได้ บางตำราใช้คำว่ารุ่นที่ 5 เรียกยุค AI ซึ่งยังเปลี่ยนแปลงอยู่', 'ตัวอย่าง: ผู้ช่วย AI และระบบรู้จำภาพ', 's-robot']
+  ];
+  var tabs = document.getElementById('gen-tabs'), panel = document.getElementById('gen-panel');
+  function showGen(i) {
+    var g = GEN[i];
+    Array.prototype.forEach.call(tabs.children, function (b, k) { b.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    panel.className = 'card gen ' + cs[i];
+    panel.innerHTML = stk(g[5], 'width="96"') + '<div><h3>' + g[0] + ': ' + g[2] + '</h3><div class="meta"><span class="tag">' + g[1] + '</span><span class="tag">' + g[4] + '</span></div><p>' + g[3] + '</p></div>';
+  }
+  GEN.forEach(function (g, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'tab ' + cs[i]; b.setAttribute('role', 'tab'); b.textContent = g[0];
+    b.addEventListener('click', function () { showGen(i); });
+    tabs.appendChild(b);
+  });
+  showGen(0);
+
+  /* ---------- parts ---------- */
+  var PARTS = [
+    ['อุปกรณ์รับเข้า', 'INPUT', 'ส่งข้อมูลเข้าเครื่อง เช่น คีย์บอร์ด เมาส์ ไมโครโฟน กล้อง', 's-keyboard'],
+    ['หน่วยประมวลผล', 'CPU', 'สมองของเครื่อง คิดคำนวณและสั่งงานส่วนอื่นๆ', 's-cpu'],
+    ['หน่วยความจำ', 'RAM', 'โต๊ะทำงานชั่วคราว เก็บสิ่งที่กำลังใช้ ปิดเครื่องแล้วข้อมูลหาย', 's-battery'],
+    ['หน่วยเก็บข้อมูล', 'STORAGE', 'ตู้เก็บเอกสาร เก็บไฟล์ถาวร ปิดเครื่องแล้วข้อมูลยังอยู่', 's-floppy'],
+    ['อุปกรณ์แสดงผล', 'OUTPUT', 'แสดงผลให้เราเห็นหรือได้ยิน เช่น จอภาพ ลำโพง เครื่องพิมพ์', 's-laptop']
+  ];
+  var flow = document.getElementById('flow'); h = '';
+  PARTS.forEach(function (p, i) {
+    h += '<div class="card part ' + cs[i] + '">' + stk(p[3]) + '<span class="en">' + p[1] + '</span><h3>' + p[0] + '</h3><p>' + p[2] + '</p></div>';
+  });
+  flow.innerHTML = h;
+
+  /* ---------- binary ---------- */
+  var VALS = [128, 64, 32, 16, 8, 4, 2, 1], bits = [0, 0, 0, 0, 0, 0, 0, 0];
+  var bitsEl = document.getElementById('bits'), decEl = document.getElementById('dec'), chrEl = document.getElementById('chr');
+  var btns = [];
+  VALS.forEach(function (v, i) {
+    var w = document.createElement('div'); w.className = 'bit';
+    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', 'บิตค่า ' + v); b.textContent = '0';
+    var s = document.createElement('span'); s.textContent = v;
+    b.addEventListener('click', function () { bits[i] = bits[i] ? 0 : 1; renderBits(); });
+    w.appendChild(b); w.appendChild(s); bitsEl.appendChild(w); btns.push(b);
+  });
+  function renderBits() {
+    var n = 0;
+    bits.forEach(function (x, i) { btns[i].textContent = x; btns[i].setAttribute('aria-pressed', x ? 'true' : 'false'); if (x) n += VALS[i]; });
+    decEl.textContent = n;
+    chrEl.textContent = (n >= 33 && n <= 126) ? String.fromCharCode(n) : (n === 32 ? 'เว้นวรรค' : '-');
+  }
+  function setVal(n) { VALS.forEach(function (v, i) { bits[i] = (n & v) ? 1 : 0; }); renderBits(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.presets [data-v]'), function (b) {
+    b.addEventListener('click', function () { setVal(parseInt(b.getAttribute('data-v'), 10)); });
+  });
+  setVal(65);
+
+  /* ---------- quiz ---------- */
+  var QZ = [
+    ['ส่วนไหนเปรียบเหมือนสมองของคอมพิวเตอร์', ['จอภาพ', 'ซีพียู (CPU)', 'ลำโพง'], 1, 'ซีพียูคิดคำนวณและสั่งงานส่วนอื่นๆ ส่วนจอและลำโพงเป็นอุปกรณ์แสดงผล'],
+    ['ใครถูกยกย่องว่าเขียนโปรแกรมแรกของโลก', ['เอดา เลิฟเลซ', 'ปาสกาล', 'ทิม เบอร์เนอร์ส-ลี'], 0, 'เอดา เลิฟเลซ เขียนขั้นตอนคำนวณสำหรับเครื่องของแบบเบจเมื่อปี 1843'],
+    ['เลขฐานสองใช้ตัวเลขกี่แบบ', ['2 แบบ คือ 0 กับ 1', '8 แบบ', '10 แบบ'], 0, 'เลขฐานสองมีแค่ 0 กับ 1 ตรงกับสวิตช์ปิดและเปิดในเครื่อง'],
+    ['RAM ต่างจากหน่วยเก็บข้อมูลอย่างไร', ['RAM เก็บถาวร', 'RAM เก็บชั่วคราวและเร็ว', 'ไม่ต่างกันเลย'], 1, 'RAM เหมือนโต๊ะทำงาน ใช้เก็บสิ่งที่กำลังทำอยู่ ปิดเครื่องแล้วข้อมูลหาย'],
+    ['ใครเสนอแนวคิดเวิลด์ไวด์เว็บ', ['ทิม เบอร์เนอร์ส-ลี', 'ชาร์ลส์ แบบเบจ', 'เบลส ปาสกาล'], 0, 'ทิม เบอร์เนอร์ส-ลี เสนอแนวคิดเว็บเมื่อปี 1989']
+  ];
+  var qbox = document.getElementById('quiz-box'), qi = 0, score = 0;
+  function renderQ() {
+    if (qi >= QZ.length) {
+      var msg = score === QZ.length ? 'เก่งมาก ได้เต็มเลย' : (score >= 3 ? 'ทำได้ดีมาก' : 'ลองอ่านอีกรอบแล้วเล่นใหม่นะ');
+      qbox.innerHTML = '<div class="result">' + stk(score >= 3 ? 's-star' : 's-heart') + '<h3>ได้ ' + score + ' จาก ' + QZ.length + ' ข้อ</h3><p>' + msg + '</p><button class="btn" type="button" id="again">เล่นอีกครั้ง</button></div>';
+      document.getElementById('again').addEventListener('click', function () { qi = 0; score = 0; renderQ(); });
+      return;
+    }
+    var q = QZ[qi];
+    qbox.innerHTML = '<div class="q-top"><span>ข้อ ' + (qi + 1) + ' จาก ' + QZ.length + '</span><span>คะแนน ' + score + '</span></div><h3>' + q[0] + '</h3><div class="opts" id="opts"></div><div id="after"></div>';
+    var opts = document.getElementById('opts');
+    q[1].forEach(function (t, k) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.textContent = t;
+      b.addEventListener('click', function () {
+        Array.prototype.forEach.call(opts.children, function (o, j) {
+          o.disabled = true;
+          if (j === q[2]) o.classList.add('ok');
+          else if (j === k) o.classList.add('no');
+        });
+        if (k === q[2]) score++;
+        document.getElementById('after').innerHTML = '<p class="explain"><strong>' + (k === q[2] ? 'ถูกต้อง ' : 'ยังไม่ใช่ ') + '</strong>' + q[3] + '</p><div class="q-actions"><button class="btn" type="button" id="next">' + (qi === QZ.length - 1 ? 'ดูคะแนน' : 'ข้อต่อไป') + '</button></div>';
+        var nx = document.getElementById('next'); nx.focus();
+        nx.addEventListener('click', function () { qi++; renderQ(); });
+      });
+      opts.appendChild(b);
+    });
+  }
+  renderQ();
+
+  /* ---------- stickers ---------- */
+  var album = document.getElementById('album'), board = document.getElementById('board'), hint = document.getElementById('hint'), msg = document.getElementById('board-msg');
+  var sel = 's-laptop', placed = [];
+  try { var saved = JSON.parse(localStorage.getItem('cc-board') || '[]'); if (Array.isArray(saved)) placed = saved.filter(function (p) { return NAMES[p.id]; }); } catch (e) {}
+  function save() { try { localStorage.setItem('cc-board', JSON.stringify(placed)); } catch (e) {} }
+  var pickBtns = {};
+  Object.keys(NAMES).forEach(function (id) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'pick'; b.setAttribute('aria-pressed', id === sel ? 'true' : 'false');
+    b.innerHTML = stk(id) + '<span>' + NAMES[id] + '</span>';
+    b.addEventListener('click', function () {
+      sel = id; msg.textContent = 'เลือกแล้ว: ' + NAMES[id];
+      Object.keys(pickBtns).forEach(function (k) { pickBtns[k].setAttribute('aria-pressed', k === id ? 'true' : 'false'); });
+    });
+    album.appendChild(b); pickBtns[id] = b;
+  });
+  function renderBoard() {
+    Array.prototype.forEach.call(board.querySelectorAll('.placed'), function (n) { n.remove(); });
+    placed.forEach(function (p) {
+      var d = document.createElement('div'); d.className = 'placed';
+      d.style.left = p.x + '%'; d.style.top = p.y + '%';
+      d.style.transform = 'translate(-50%,-50%) rotate(' + p.r + 'deg)';
+      d.innerHTML = stk(p.id);
+      board.appendChild(d);
+    });
+    hint.style.display = placed.length ? 'none' : 'grid';
+  }
+  function place(x, y) {
+    placed.push({ id: sel, x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10, r: Math.round(Math.random() * 36 - 18) });
+    if (placed.length > 80) placed.shift();
+    save(); renderBoard();
+  }
+  board.addEventListener('click', function (e) {
+    var r = board.getBoundingClientRect();
+    place(Math.min(94, Math.max(6, (e.clientX - r.left) / r.width * 100)), Math.min(92, Math.max(8, (e.clientY - r.top) / r.height * 100)));
+  });
+  board.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); place(10 + Math.random() * 80, 15 + Math.random() * 70); }
+  });
+  document.getElementById('undo').addEventListener('click', function () { placed.pop(); save(); renderBoard(); });
+  document.getElementById('clear').addEventListener('click', function () { placed = []; save(); renderBoard(); });
+  renderBoard();
+})();
+</script>
